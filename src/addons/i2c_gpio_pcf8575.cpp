@@ -44,7 +44,16 @@ void PCF8575Addon::setup() {
 void PCF8575Addon::process()
 {
     Gamepad * gamepad = Storage::getInstance().GetGamepad();
-
+　　// --- ここを追加して毎フレームリセットする ---
+    inputButtonUp = inputButtonDown = inputButtonLeft = inputButtonRight = false;
+    inputButtonB1 = inputButtonB2 = inputButtonB3 = inputButtonB4 = false;
+    inputButtonL1 = inputButtonR1 = inputButtonL2 = inputButtonR2 = false;
+    inputButtonS1 = inputButtonS2 = inputButtonA1 = inputButtonA2 = false;
+    inputButtonL3 = inputButtonR3 = inputButtonA3 = inputButtonA4 = false;
+    inputButtonEXT1 = inputButtonEXT2 = inputButtonEXT3 = false;
+    inputButtonEXT4 = inputButtonEXT5 = inputButtonEXT6 = false;
+    // -------------------------------------
+	
     for (std::map<uint8_t, GpioMappingInfo>::iterator pin = pinRef.begin(); pin != pinRef.end(); ++pin) {
         if (pin->second.direction == GpioDirection::GPIO_DIRECTION_INPUT) {
             uint8_t pinRaw = pcf->getPin(pin->first);
