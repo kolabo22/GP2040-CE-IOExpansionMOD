@@ -89,7 +89,13 @@ void PCF8575Addon::process()
 								case GpioAction::BUTTON_PRESS_E4:    inputButtonEXT4 = pinValue; break;
 								case GpioAction::BUTTON_PRESS_E5:    inputButtonEXT5 = pinValue; break;
 								case GpioAction::BUTTON_PRESS_E6:    inputButtonEXT6 = pinValue; break;
-                default:                             break;
+							  case GpioAction::BUTTON_PRESS_E7:    inputButtonEXT7 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_E8:    inputButtonEXT8 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_E9:    inputButtonEXT9 = pinValue; break; 
+								case GpioAction::BUTTON_PRESS_E10:    inputButtonEXT10 = pinValue; break; 
+								case GpioAction::BUTTON_PRESS_E11:    inputButtonEXT11 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_E12:    inputButtonEXT12 = pinValue; break;
+							default:                             break;
             }
        } else if (pin->second.direction == GpioDirection::GPIO_DIRECTION_OUTPUT) {
             switch (pin->second.action) {
@@ -123,7 +129,13 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_E4:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 3)) == (1 << 3))); break;
                 case GpioAction::BUTTON_PRESS_E5:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 4)) == (1 << 4))); break;
                 case GpioAction::BUTTON_PRESS_E6:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 5)) == (1 << 5))); break;
-                default:                             break;
+                case GpioAction::BUTTON_PRESS_E7:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 6)) == (1 << 6))); break;
+                case GpioAction::BUTTON_PRESS_E8:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 7)) == (1 << 7))); break;
+                case GpioAction::BUTTON_PRESS_E9:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 8)) == (1 << 8))); break;
+                case GpioAction::BUTTON_PRESS_E10:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 9)) == (1 << 9))); break;
+                case GpioAction::BUTTON_PRESS_E11:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 10)) == (1 << 10))); break;
+                case GpioAction::BUTTON_PRESS_E12:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 11)) == (1 << 11))); break;
+							  default:                             break;
             }
 
         } else {
@@ -162,4 +174,27 @@ void PCF8575Addon::process()
     if (inputButtonEXT4) gamepad->state.buttons |= GAMEPAD_MASK_E4;
     if (inputButtonEXT5) gamepad->state.buttons |= GAMEPAD_MASK_E5;
     if (inputButtonEXT6) gamepad->state.buttons |= GAMEPAD_MASK_E6;
+		if (inputButtonEXT7) gamepad->state.buttons |= GAMEPAD_MASK_E7;
+    if (inputButtonEXT8) gamepad->state.buttons |= GAMEPAD_MASK_E8;
+    if (inputButtonEXT9) gamepad->state.buttons |= GAMEPAD_MASK_E9;
+    if (inputButtonEX10) gamepad->state.buttons |= GAMEPAD_MASK_E10;
+    if (inputButtonEXT11) gamepad->state.buttons |= GAMEPAD_MASK_E11;
+    if (inputButtonEXT12) gamepad->state.buttons |= GAMEPAD_MASK_E12;
+/ --- 追加：マクロエンジンへの入力同期 ---
+    // これにより、Webコンフィグのマクロ設定で Trigger に指定したボタンが反応するようになります。
+    if (inputButtonA3)   gamepad->debouncedGpio |= GAMEPAD_MASK_A3;
+    if (inputButtonA4)   gamepad->debouncedGpio |= GAMEPAD_MASK_A4;
+    if (inputButtonEXT1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
+    if (inputButtonEXT2) gamepad->debouncedGpio |= GAMEPAD_MASK_E2;
+    if (inputButtonEXT3) gamepad->debouncedGpio |= GAMEPAD_MASK_E3;
+    if (inputButtonEXT4) gamepad->debouncedGpio |= GAMEPAD_MASK_E4;
+    if (inputButtonEXT5) gamepad->debouncedGpio |= GAMEPAD_MASK_E5;
+    if (inputButtonEXT6) gamepad->debouncedGpio |= GAMEPAD_MASK_E6;
+    if (inputButtonEXT7) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
+    if (inputButtonEXT8) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
+    if (inputButtonEXT9) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
+    if (inputButtonEXT10) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
+    if (inputButtonEXT11) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
+    if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;	
+    // EXT12まで定義している場合は、同様にすべて追加してください
 }
