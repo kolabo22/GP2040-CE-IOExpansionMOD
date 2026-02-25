@@ -16,47 +16,47 @@
 
 /* gamepad.h の冒頭に追記 */
 #ifndef GAMEPAD_MASK_A3
-#define GAMEPAD_MASK_A3    (1U << 18)
+#define GAMEPAD_MASK_A3    (1UL << 18)
 #endif
 #ifndef GAMEPAD_MASK_A4
-#define GAMEPAD_MASK_A4    (1U << 19)
+#define GAMEPAD_MASK_A4    (1UL << 19)
 #endif
 #ifndef GAMEPAD_MASK_E1
-#define GAMEPAD_MASK_E1    (1U << 20)
+#define GAMEPAD_MASK_E1    (1UL << 20)
 #endif
 #ifndef GAMEPAD_MASK_E2
-#define GAMEPAD_MASK_E2    (1U << 21)
+#define GAMEPAD_MASK_E2    (1UL << 21)
 #endif
 #ifndef GAMEPAD_MASK_E3
-#define GAMEPAD_MASK_E3    (1U << 22)
+#define GAMEPAD_MASK_E3    (1UL << 22)
 #endif
 #ifndef GAMEPAD_MASK_E4
-#define GAMEPAD_MASK_E4    (1U << 23)
+#define GAMEPAD_MASK_E4    (1UL << 23)
 #endif
 #ifndef GAMEPAD_MASK_E5
-#define GAMEPAD_MASK_E5    (1U << 24)
+#define GAMEPAD_MASK_E5    (1UL << 24)
 #endif
 #ifndef GAMEPAD_MASK_E6
-#define GAMEPAD_MASK_E6    (1U << 25)
+#define GAMEPAD_MASK_E6    (1UL << 25)
 #endif
 /* gamepad.cppでE12までnewしている場合は、以下の定義も必要です */
 #ifndef GAMEPAD_MASK_E7
-#define GAMEPAD_MASK_E7    (1U << 26)
+#define GAMEPAD_MASK_E7    (1UL << 26)
 #endif
 #ifndef GAMEPAD_MASK_E8
-#define GAMEPAD_MASK_E8    (1U << 27)
+#define GAMEPAD_MASK_E8    (1UL << 27)
 #endif
 #ifndef GAMEPAD_MASK_E9
-#define GAMEPAD_MASK_E9    (1U << 28)
+#define GAMEPAD_MASK_E9    (1UL << 28)
 #endif
 #ifndef GAMEPAD_MASK_E10
-#define GAMEPAD_MASK_E10   (1U << 29)
+#define GAMEPAD_MASK_E10   (1UL << 29)
 #endif
 #ifndef GAMEPAD_MASK_E11
-#define GAMEPAD_MASK_E11   (1U << 30)
+#define GAMEPAD_MASK_E11   (1UL << 30)
 #endif
 #ifndef GAMEPAD_MASK_E12
-#define GAMEPAD_MASK_E12   (1U << 31)
+#define GAMEPAD_MASK_E12   (1UL << 31)
 #endif
 
 // MUST BE DEFINED FOR MPG
