@@ -69,8 +69,19 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_A1:    inputButtonA1 = pinValue; break;
                 case GpioAction::BUTTON_PRESS_A2:    inputButtonA2 = pinValue; break;
                 case GpioAction::BUTTON_PRESS_FN:    inputButtonFN = pinValue; break;
+                 // ... (既存のケース) ...
+                // --- 追加分 ---
+                case GpioAction::BUTTON_PRESS_A3:    inputButtonA3 = pinValue; break;
+                case GpioAction::BUTTON_PRESS_A4:    inputButtonA4 = pinValue; break;
+                case GpioAction::SUSTAIN_DP_MODE_DP: inputButtonEXT1 = pinValue; break; 
+                case GpioAction::SUSTAIN_DP_MODE_LS: inputButtonEXT2 = pinValue; break; 
+                case GpioAction::SUSTAIN_DP_MODE_RS: inputButtonEXT3 = pinValue; break;
+                case GpioAction::SUSTAIN_SOCD_MODE_UP_PRIO: inputButtonEXT4 = pinValue; break;
+                case GpioAction::SUSTAIN_SOCD_MODE_NEUTRAL: inputButtonEXT5 = pinValue; break;
+                case GpioAction::SUSTAIN_SOCD_MODE_SECOND_INPUT: inputButtonEXT6 = pinValue; break;
                 default:                             break;
             }
+        }
         } else if (pin->second.direction == GpioDirection::GPIO_DIRECTION_OUTPUT) {
             switch (pin->second.action) {
                 case GpioAction::BUTTON_PRESS_UP:    pcf->setPin(pin->first, !((gamepad->state.dpad & GAMEPAD_MASK_UP) == GAMEPAD_MASK_UP)); break;
@@ -91,8 +102,19 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_R3:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_R3) == GAMEPAD_MASK_R3)); break;
                 case GpioAction::BUTTON_PRESS_A1:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_A1) == GAMEPAD_MASK_A1)); break;
                 case GpioAction::BUTTON_PRESS_A2:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_A2) == GAMEPAD_MASK_A2)); break;
+                  // ... (既存のケース) ...
+                // --- 追加分 ---
+                case GpioAction::BUTTON_PRESS_A3:    inputButtonA3 = pinValue; break;
+                case GpioAction::BUTTON_PRESS_A4:    inputButtonA4 = pinValue; break;
+                case GpioAction::SUSTAIN_DP_MODE_DP: inputButtonEXT1 = pinValue; break; 
+                case GpioAction::SUSTAIN_DP_MODE_LS: inputButtonEXT2 = pinValue; break; 
+                case GpioAction::SUSTAIN_DP_MODE_RS: inputButtonEXT3 = pinValue; break;
+                case GpioAction::SUSTAIN_SOCD_MODE_UP_PRIO: inputButtonEXT4 = pinValue; break;
+                case GpioAction::SUSTAIN_SOCD_MODE_NEUTRAL: inputButtonEXT5 = pinValue; break;
+                case GpioAction::SUSTAIN_SOCD_MODE_SECOND_INPUT: inputButtonEXT6 = pinValue; break;
                 default:                             break;
             }
+
         } else {
             // NYI
         }
@@ -116,4 +138,16 @@ void PCF8575Addon::process()
     if (inputButtonR3) gamepad->state.buttons |= GAMEPAD_MASK_R3;
     if (inputButtonA1) gamepad->state.buttons |= GAMEPAD_MASK_A1;
     if (inputButtonA2) gamepad->state.buttons |= GAMEPAD_MASK_A2;
+ // ゲームパッドの状態に反映 (既存分は省略)
+    // --- 追加分を反映 ---
+    if (inputButtonA3) gamepad->state.buttons |= GAMEPAD_MASK_A3;
+    if (inputButtonA4) gamepad->state.buttons |= GAMEPAD_MASK_A4;
+    
+    // EXTボタンをAUXビットとして反映（例）
+    if (inputButtonEXT1) gamepad->state.aux |= (1 << 0);
+    if (inputButtonEXT2) gamepad->state.aux |= (1 << 1);
+    if (inputButtonEXT3) gamepad->state.aux |= (1 << 2);
+    if (inputButtonEXT4) gamepad->state.aux |= (1 << 3);
+    if (inputButtonEXT5) gamepad->state.aux |= (1 << 4);
+    if (inputButtonEXT6) gamepad->state.aux |= (1 << 5);
 }
