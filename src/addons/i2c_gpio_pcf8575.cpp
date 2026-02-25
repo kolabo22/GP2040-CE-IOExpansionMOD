@@ -69,7 +69,7 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_A1:    inputButtonA1 = pinValue; break;
                 case GpioAction::BUTTON_PRESS_A2:    inputButtonA2 = pinValue; break;
                 case GpioAction::BUTTON_PRESS_FN:    inputButtonFN = pinValue; break;
-                 // ... (既存のケース) ...
+                // ... (既存のケース) ...
                 // --- 追加分 ---
                 // i2c_gpio_pcf8575.cpp の switch文の中身をこれに差し替え
 								case GpioAction::BUTTON_PRESS_A3:    inputButtonA3 = pinValue; break;
@@ -102,7 +102,7 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_R3:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_R3) == GAMEPAD_MASK_R3)); break;
                 case GpioAction::BUTTON_PRESS_A1:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_A1) == GAMEPAD_MASK_A1)); break;
                 case GpioAction::BUTTON_PRESS_A2:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_A2) == GAMEPAD_MASK_A2)); break;
-                  // ... (既存のケース) ...
+                // ... (既存のケース) ...
                 // --- 追加分 ---
                 // i2c_gpio_pcf8575.cpp の switch文の中身をこれに差し替え
 								// --- 出力(OUTPUT)側の追加分 ---
@@ -140,7 +140,7 @@ void PCF8575Addon::process()
     if (inputButtonR3) gamepad->state.buttons |= GAMEPAD_MASK_R3;
     if (inputButtonA1) gamepad->state.buttons |= GAMEPAD_MASK_A1;
     if (inputButtonA2) gamepad->state.buttons |= GAMEPAD_MASK_A2;
- // ゲームパッドの状態に反映 (既存分は省略)
+    // ゲームパッドの状態に反映 (既存分は省略)
     // --- 追加分を反映 ---
     if (inputButtonA3) gamepad->state.buttons |= GAMEPAD_MASK_A3;
     if (inputButtonA4) gamepad->state.buttons |= GAMEPAD_MASK_A4;
