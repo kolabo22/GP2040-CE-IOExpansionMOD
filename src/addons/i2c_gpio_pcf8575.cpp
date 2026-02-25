@@ -82,8 +82,7 @@ void PCF8575Addon::process()
 								case GpioAction::BUTTON_PRESS_E6:    inputButtonEXT6 = pinValue; break;
                 default:                             break;
             }
-        }
-        } else if (pin->second.direction == GpioDirection::GPIO_DIRECTION_OUTPUT) {
+       } else if (pin->second.direction == GpioDirection::GPIO_DIRECTION_OUTPUT) {
             switch (pin->second.action) {
                 case GpioAction::BUTTON_PRESS_UP:    pcf->setPin(pin->first, !((gamepad->state.dpad & GAMEPAD_MASK_UP) == GAMEPAD_MASK_UP)); break;
                 case GpioAction::BUTTON_PRESS_DOWN:  pcf->setPin(pin->first, !((gamepad->state.dpad & GAMEPAD_MASK_DOWN) == GAMEPAD_MASK_DOWN)); break;
