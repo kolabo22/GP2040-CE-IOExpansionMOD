@@ -169,6 +169,16 @@ private:
     bool inputButtonA1 = false;
     bool inputButtonA2 = false;
     bool inputButtonFN = false;
+// --- ここから追加 ---
+    bool inputButtonA3 = false;
+    bool inputButtonA4 = false;
+    bool inputButtonEXT1 = false;
+    bool inputButtonEXT2 = false;
+    bool inputButtonEXT3 = false;
+    bool inputButtonEXT4 = false;
+    bool inputButtonEXT5 = false;
+    bool inputButtonEXT6 = false;
+    // --- ここまで追加 ---
 };
 
 #endif  // _I2CAnalog_H_
