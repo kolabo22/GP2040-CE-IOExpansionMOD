@@ -155,10 +155,11 @@ void PCF8575Addon::process()
     if (inputButtonA4) gamepad->state.buttons |= GAMEPAD_MASK_A4;
     
     // EXTボタンをAUXビットとして反映（例）
-    if (inputButtonEXT1) gamepad->state.aux |= (1 << 0);
-    if (inputButtonEXT2) gamepad->state.aux |= (1 << 1);
-    if (inputButtonEXT3) gamepad->state.aux |= (1 << 2);
-    if (inputButtonEXT4) gamepad->state.aux |= (1 << 3);
-    if (inputButtonEXT5) gamepad->state.aux |= (1 << 4);
-    if (inputButtonEXT6) gamepad->state.aux |= (1 << 5);
+    // 修正：aux ではなく、PCへ送信される state.buttons (E1〜E6) に直接反映する
+    if (inputButtonEXT1) gamepad->state.buttons |= GAMEPAD_MASK_E1;
+    if (inputButtonEXT2) gamepad->state.buttons |= GAMEPAD_MASK_E2;
+    if (inputButtonEXT3) gamepad->state.buttons |= GAMEPAD_MASK_E3;
+    if (inputButtonEXT4) gamepad->state.buttons |= GAMEPAD_MASK_E4;
+    if (inputButtonEXT5) gamepad->state.buttons |= GAMEPAD_MASK_E5;
+    if (inputButtonEXT6) gamepad->state.buttons |= GAMEPAD_MASK_E6;
 }
