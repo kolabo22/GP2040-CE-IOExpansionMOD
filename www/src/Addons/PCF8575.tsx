@@ -24,9 +24,14 @@ import {
 import { AddonPropTypes } from '../Pages/AddonsConfigPage';
 
 // Only provide gamepad inputs for now
+// 修正後
 const SELECTABLE_BUTTON_ACTIONS = [
 	-10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+	41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54 // A3, A4, E1-E12を追加
 ];
+//const SELECTABLE_BUTTON_ACTIONS = [
+//	-10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+//];
 
 const isSelectable = (value) =>
 	SELECTABLE_BUTTON_ACTIONS.includes(value);
