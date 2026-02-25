@@ -40,6 +40,7 @@
 #endif
 #ifndef GAMEPAD_MASK_E6    
 #define GAMEPAD_MASK_E6    (1U << 25)
+#endif
 // E6まで使う場合はここまで定義
 /* gamepad.h の冒頭に追記 */
 #ifndef GAMEPAD_MASK_E7
