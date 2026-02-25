@@ -177,10 +177,10 @@ void PCF8575Addon::process()
 		if (inputButtonEXT7) gamepad->state.buttons |= GAMEPAD_MASK_E7;
     if (inputButtonEXT8) gamepad->state.buttons |= GAMEPAD_MASK_E8;
     if (inputButtonEXT9) gamepad->state.buttons |= GAMEPAD_MASK_E9;
-    if (inputButtonEX10) gamepad->state.buttons |= GAMEPAD_MASK_E10;
+    if (inputButtonEXT10) gamepad->state.buttons |= GAMEPAD_MASK_E10;
     if (inputButtonEXT11) gamepad->state.buttons |= GAMEPAD_MASK_E11;
     if (inputButtonEXT12) gamepad->state.buttons |= GAMEPAD_MASK_E12;
-/ --- 追加：マクロエンジンへの入力同期 ---
+// --- 追加：マクロエンジンへの入力同期 ---
     // これにより、Webコンフィグのマクロ設定で Trigger に指定したボタンが反応するようになります。
     if (inputButtonA3)   gamepad->debouncedGpio |= GAMEPAD_MASK_A3;
     if (inputButtonA4)   gamepad->debouncedGpio |= GAMEPAD_MASK_A4;
