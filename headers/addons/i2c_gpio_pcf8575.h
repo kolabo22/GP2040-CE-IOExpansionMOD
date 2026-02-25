@@ -178,7 +178,13 @@ private:
     bool inputButtonEXT4 = false;
     bool inputButtonEXT5 = false;
     bool inputButtonEXT6 = false;
-    // --- ここまで追加 ---
+    bool inputButtonEXT7 = false;
+    bool inputButtonEXT8 = false;
+    bool inputButtonEXT9 = false;
+    bool inputButtonEXT10 = false;
+    bool inputButtonEXT11 = false;
+    bool inputButtonEXT12 = false;
+// --- ここまで追加 ---
 };
 
 #endif  // _I2CAnalog_H_
