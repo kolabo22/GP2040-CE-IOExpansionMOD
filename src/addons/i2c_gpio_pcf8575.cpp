@@ -71,14 +71,15 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_FN:    inputButtonFN = pinValue; break;
                  // ... (既存のケース) ...
                 // --- 追加分 ---
-                case GpioAction::BUTTON_PRESS_A3:    inputButtonA3 = pinValue; break;
-                case GpioAction::BUTTON_PRESS_A4:    inputButtonA4 = pinValue; break;
-                case GpioAction::SUSTAIN_DP_MODE_DP: inputButtonEXT1 = pinValue; break; 
-                case GpioAction::SUSTAIN_DP_MODE_LS: inputButtonEXT2 = pinValue; break; 
-                case GpioAction::SUSTAIN_DP_MODE_RS: inputButtonEXT3 = pinValue; break;
-                case GpioAction::SUSTAIN_SOCD_MODE_UP_PRIO: inputButtonEXT4 = pinValue; break;
-                case GpioAction::SUSTAIN_SOCD_MODE_NEUTRAL: inputButtonEXT5 = pinValue; break;
-                case GpioAction::SUSTAIN_SOCD_MODE_SECOND_INPUT: inputButtonEXT6 = pinValue; break;
+                // i2c_gpio_pcf8575.cpp の switch文の中身をこれに差し替え
+								case GpioAction::BUTTON_PRESS_A3:    inputButtonA3 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_A4:    inputButtonA4 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_E1:    inputButtonEXT1 = pinValue; break; 
+								case GpioAction::BUTTON_PRESS_E2:    inputButtonEXT2 = pinValue; break; 
+								case GpioAction::BUTTON_PRESS_E3:    inputButtonEXT3 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_E4:    inputButtonEXT4 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_E5:    inputButtonEXT5 = pinValue; break;
+								case GpioAction::BUTTON_PRESS_E6:    inputButtonEXT6 = pinValue; break;
                 default:                             break;
             }
         }
@@ -104,14 +105,16 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_A2:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_A2) == GAMEPAD_MASK_A2)); break;
                   // ... (既存のケース) ...
                 // --- 追加分 ---
-                case GpioAction::BUTTON_PRESS_A3:    inputButtonA3 = pinValue; break;
-                case GpioAction::BUTTON_PRESS_A4:    inputButtonA4 = pinValue; break;
-                case GpioAction::SUSTAIN_DP_MODE_DP: inputButtonEXT1 = pinValue; break; 
-                case GpioAction::SUSTAIN_DP_MODE_LS: inputButtonEXT2 = pinValue; break; 
-                case GpioAction::SUSTAIN_DP_MODE_RS: inputButtonEXT3 = pinValue; break;
-                case GpioAction::SUSTAIN_SOCD_MODE_UP_PRIO: inputButtonEXT4 = pinValue; break;
-                case GpioAction::SUSTAIN_SOCD_MODE_NEUTRAL: inputButtonEXT5 = pinValue; break;
-                case GpioAction::SUSTAIN_SOCD_MODE_SECOND_INPUT: inputButtonEXT6 = pinValue; break;
+                // i2c_gpio_pcf8575.cpp の switch文の中身をこれに差し替え
+								// --- 出力(OUTPUT)側の追加分 ---
+                case GpioAction::BUTTON_PRESS_A3:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_A3) == GAMEPAD_MASK_A3)); break;
+                case GpioAction::BUTTON_PRESS_A4:    pcf->setPin(pin->first, !((gamepad->state.buttons & GAMEPAD_MASK_A4) == GAMEPAD_MASK_A4)); break;
+                case GpioAction::BUTTON_PRESS_E1:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 0)) == (1 << 0))); break;
+                case GpioAction::BUTTON_PRESS_E2:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 1)) == (1 << 1))); break;
+                case GpioAction::BUTTON_PRESS_E3:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 2)) == (1 << 2))); break;
+                case GpioAction::BUTTON_PRESS_E4:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 3)) == (1 << 3))); break;
+                case GpioAction::BUTTON_PRESS_E5:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 4)) == (1 << 4))); break;
+                case GpioAction::BUTTON_PRESS_E6:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 5)) == (1 << 5))); break;
                 default:                             break;
             }
 
