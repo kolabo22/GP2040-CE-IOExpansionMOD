@@ -244,8 +244,12 @@ void PCF8575Addon::process()
     if (inputButtonMacro4) gamepad->debouncedGpio |= (1ULL << 35); // マクロ4
     if (inputButtonMacro5) gamepad->debouncedGpio |= (1ULL << 36); // マクロ5
     if (inputButtonMacro6) gamepad->debouncedGpio |= (1ULL << 37); // マクロ6
- // --- 【追加ポイント2】関数の最後（閉じカッコの直前）に追記 ---
-    // 1フレーム目の処理が終わったので、フラグを倒して2フレーム目から通常動作にする
-    isFirstRead = false;
-	
+
+    // --- 【追加ポイント2】ここを関数の最後に追記 ---
+    // 起動からの経過フレームをカウントアップします
+    // 100に達するまではカウントを増やし続け、100に達したら止まります
+    if (bootSkipCount < 100) {
+        bootSkipCount++;
+    }
+    // ----------------------------------------------	
 }
