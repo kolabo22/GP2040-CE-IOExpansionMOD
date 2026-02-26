@@ -135,7 +135,16 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_E10:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 9)) == (1 << 9))); break;
                 case GpioAction::BUTTON_PRESS_E11:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 10)) == (1 << 10))); break;
                 case GpioAction::BUTTON_PRESS_E12:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 11)) == (1 << 11))); break;
-							  default:                             break;
+							   // --- ここから【マクロのアクションID判定】を追加 ---
+    						case GpioAction::BUTTON_PRESS_MACRO:   inputButtonMacro = pinValue; break;
+    						case GpioAction::BUTTON_PRESS_MACRO_1: inputButtonMacro1 = pinValue; break;
+    						case GpioAction::BUTTON_PRESS_MACRO_2: inputButtonMacro2 = pinValue; break;
+    						case GpioAction::BUTTON_PRESS_MACRO_3: inputButtonMacro3 = pinValue; break;
+    						case GpioAction::BUTTON_PRESS_MACRO_4: inputButtonMacro4 = pinValue; break;
+    						case GpioAction::BUTTON_PRESS_MACRO_5: inputButtonMacro5 = pinValue; break;
+    						case GpioAction::BUTTON_PRESS_MACRO_6: inputButtonMacro6 = pinValue; break;
+    						 // -----------------------------------------------
+							default:                             break;
             }
 
         } else {
@@ -196,5 +205,32 @@ void PCF8575Addon::process()
     if (inputButtonEXT10) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
     if (inputButtonEXT11) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
     if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;	
+    // --- 既存のコード（gamepad->state.buttons への反映）の下に追加 ---
+
+    // マクロエンジンやホットキー判定が使用する「生の入力状態」に同期させる
+    if (inputButtonA3)   gamepad->debouncedGpio |= GAMEPAD_MASK_A3;
+    if (inputButtonA4)   gamepad->debouncedGpio |= GAMEPAD_MASK_A4;
+    if (inputButtonEXT1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
+    if (inputButtonEXT2) gamepad->debouncedGpio |= GAMEPAD_MASK_E2;
+    if (inputButtonEXT3) gamepad->debouncedGpio |= GAMEPAD_MASK_E3;
+    if (inputButtonEXT4) gamepad->debouncedGpio |= GAMEPAD_MASK_E4;
+    if (inputButtonEXT5) gamepad->debouncedGpio |= GAMEPAD_MASK_E5;
+    if (inputButtonEXT6) gamepad->debouncedGpio |= GAMEPAD_MASK_E6;
+    if (inputButtonEXT7) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
+    if (inputButtonEXT8) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
+    if (inputButtonEXT9) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
+    if (inputButtonEXT10) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
+    if (inputButtonEXT11) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
+    if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
     // EXT12まで定義している場合は、同様にすべて追加してください
+	  
+	  // マクロボタン自体のフラグを反映させる
+    if (inputButtonMacro)  gamepad->debouncedGpio |= (1ULL << 31); // 共通マクロボタン
+    if (inputButtonMacro1) gamepad->debouncedGpio |= (1ULL << 32); // マクロ1
+    if (inputButtonMacro2) gamepad->debouncedGpio |= (1ULL << 33); // マクロ2
+    if (inputButtonMacro3) gamepad->debouncedGpio |= (1ULL << 34); // マクロ3
+    if (inputButtonMacro4) gamepad->debouncedGpio |= (1ULL << 35); // マクロ4
+    if (inputButtonMacro5) gamepad->debouncedGpio |= (1ULL << 36); // マクロ5
+    if (inputButtonMacro6) gamepad->debouncedGpio |= (1ULL << 37); // マクロ6
+		
 }
