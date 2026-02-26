@@ -172,93 +172,57 @@ void PCF8575Addon::process()
             // NYI
         }
     }
-
-    if (inputButtonUp) gamepad->state.dpad |= GAMEPAD_MASK_UP;
-    if (inputButtonDown) gamepad->state.dpad |= GAMEPAD_MASK_DOWN;
-    if (inputButtonLeft) gamepad->state.dpad |= GAMEPAD_MASK_LEFT;
+    // --- 1. 十字キーの反映 ---
+    if (inputButtonUp)    gamepad->state.dpad |= GAMEPAD_MASK_UP;
+    if (inputButtonDown)  gamepad->state.dpad |= GAMEPAD_MASK_DOWN;
+    if (inputButtonLeft)  gamepad->state.dpad |= GAMEPAD_MASK_LEFT;
     if (inputButtonRight) gamepad->state.dpad |= GAMEPAD_MASK_RIGHT;
-    if (inputButtonB1) gamepad->state.buttons |= GAMEPAD_MASK_B1;
-    if (inputButtonB2) gamepad->state.buttons |= GAMEPAD_MASK_B2;
-    if (inputButtonB3) gamepad->state.buttons |= GAMEPAD_MASK_B3;
-    if (inputButtonB4) gamepad->state.buttons |= GAMEPAD_MASK_B4;
-    if (inputButtonL1) gamepad->state.buttons |= GAMEPAD_MASK_L1;
-    if (inputButtonR1) gamepad->state.buttons |= GAMEPAD_MASK_R1;
-    if (inputButtonL2) gamepad->state.buttons |= GAMEPAD_MASK_L2;
-    if (inputButtonR2) gamepad->state.buttons |= GAMEPAD_MASK_R2;
-    if (inputButtonS1) gamepad->state.buttons |= GAMEPAD_MASK_S1;
-    if (inputButtonS2) gamepad->state.buttons |= GAMEPAD_MASK_S2;
-    if (inputButtonL3) gamepad->state.buttons |= GAMEPAD_MASK_L3;
-    if (inputButtonR3) gamepad->state.buttons |= GAMEPAD_MASK_R3;
-    if (inputButtonA1) gamepad->state.buttons |= GAMEPAD_MASK_A1;
-    if (inputButtonA2) gamepad->state.buttons |= GAMEPAD_MASK_A2;
-    // ゲームパッドの状態に反映 (既存分は省略)
-    // --- 追加分を反映 ---
-    if (inputButtonA3) gamepad->state.buttons |= GAMEPAD_MASK_A3;
-    if (inputButtonA4) gamepad->state.buttons |= GAMEPAD_MASK_A4;
-    
-    // EXTボタンをAUXビットとして反映（例）
-    // 修正：aux ではなく、PCへ送信される state.buttons (E1〜E6) に直接反映する
-    if (inputButtonEXT1) gamepad->state.buttons |= GAMEPAD_MASK_E1;
-    if (inputButtonEXT2) gamepad->state.buttons |= GAMEPAD_MASK_E2;
-    if (inputButtonEXT3) gamepad->state.buttons |= GAMEPAD_MASK_E3;
-    if (inputButtonEXT4) gamepad->state.buttons |= GAMEPAD_MASK_E4;
-    if (inputButtonEXT5) gamepad->state.buttons |= GAMEPAD_MASK_E5;
-    if (inputButtonEXT6) gamepad->state.buttons |= GAMEPAD_MASK_E6;
-		if (inputButtonEXT7) gamepad->state.buttons |= GAMEPAD_MASK_E7;
-    if (inputButtonEXT8) gamepad->state.buttons |= GAMEPAD_MASK_E8;
-    if (inputButtonEXT9) gamepad->state.buttons |= GAMEPAD_MASK_E9;
-    if (inputButtonEXT10) gamepad->state.buttons |= GAMEPAD_MASK_E10;
-    if (inputButtonEXT11) gamepad->state.buttons |= GAMEPAD_MASK_E11;
-    if (inputButtonEXT12) gamepad->state.buttons |= GAMEPAD_MASK_E12;
-// --- 追加：マクロエンジンへの入力同期 ---
-    // これにより、Webコンフィグのマクロ設定で Trigger に指定したボタンが反応するようになります。
-    if (inputButtonA3)   gamepad->debouncedGpio |= GAMEPAD_MASK_A3;
-    if (inputButtonA4)   gamepad->debouncedGpio |= GAMEPAD_MASK_A4;
-    if (inputButtonEXT1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
-    if (inputButtonEXT2) gamepad->debouncedGpio |= GAMEPAD_MASK_E2;
-    if (inputButtonEXT3) gamepad->debouncedGpio |= GAMEPAD_MASK_E3;
-    if (inputButtonEXT4) gamepad->debouncedGpio |= GAMEPAD_MASK_E4;
-    if (inputButtonEXT5) gamepad->debouncedGpio |= GAMEPAD_MASK_E5;
-    if (inputButtonEXT6) gamepad->debouncedGpio |= GAMEPAD_MASK_E6;
-    if (inputButtonEXT7) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
-    if (inputButtonEXT8) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
-    if (inputButtonEXT9) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
-    if (inputButtonEXT10) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
-    if (inputButtonEXT11) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
-    if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;	
-    // --- 既存のコード（gamepad->state.buttons への反映）の下に追加 ---
 
-    // マクロエンジンやホットキー判定が使用する「生の入力状態」に同期させる
-    if (inputButtonA3)   gamepad->debouncedGpio |= GAMEPAD_MASK_A3;
-    if (inputButtonA4)   gamepad->debouncedGpio |= GAMEPAD_MASK_A4;
-    if (inputButtonEXT1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
-    if (inputButtonEXT2) gamepad->debouncedGpio |= GAMEPAD_MASK_E2;
-    if (inputButtonEXT3) gamepad->debouncedGpio |= GAMEPAD_MASK_E3;
-    if (inputButtonEXT4) gamepad->debouncedGpio |= GAMEPAD_MASK_E4;
-    if (inputButtonEXT5) gamepad->debouncedGpio |= GAMEPAD_MASK_E5;
-    if (inputButtonEXT6) gamepad->debouncedGpio |= GAMEPAD_MASK_E6;
-    if (inputButtonEXT7) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
-    if (inputButtonEXT8) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
-    if (inputButtonEXT9) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
-    if (inputButtonEXT10) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
-    if (inputButtonEXT11) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
-    if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
-    // EXT12まで定義している場合は、同様にすべて追加してください
-	  
-	  // マクロボタン自体のフラグを反映させる
-    if (inputButtonMacro)  gamepad->debouncedGpio |= (1ULL << 31); // 共通マクロボタン
-    if (inputButtonMacro1) gamepad->debouncedGpio |= (1ULL << 32); // マクロ1
-    if (inputButtonMacro2) gamepad->debouncedGpio |= (1ULL << 33); // マクロ2
-    if (inputButtonMacro3) gamepad->debouncedGpio |= (1ULL << 34); // マクロ3
-    if (inputButtonMacro4) gamepad->debouncedGpio |= (1ULL << 35); // マクロ4
-    if (inputButtonMacro5) gamepad->debouncedGpio |= (1ULL << 36); // マクロ5
-    if (inputButtonMacro6) gamepad->debouncedGpio |= (1ULL << 37); // マクロ6
+    // --- 2. 標準ボタン (B1-A2) の同期 ---
+    // PC出力(state)と内部エンジン(debouncedGpio)の両方にセットすることでマクロが発動します
+    if (inputButtonB1) { gamepad->state.buttons |= GAMEPAD_MASK_B1; gamepad->debouncedGpio |= GAMEPAD_MASK_B1; }
+    if (inputButtonB2) { gamepad->state.buttons |= GAMEPAD_MASK_B2; gamepad->debouncedGpio |= GAMEPAD_MASK_B2; }
+    if (inputButtonB3) { gamepad->state.buttons |= GAMEPAD_MASK_B3; gamepad->debouncedGpio |= GAMEPAD_MASK_B3; }
+    if (inputButtonB4) { gamepad->state.buttons |= GAMEPAD_MASK_B4; gamepad->debouncedGpio |= GAMEPAD_MASK_B4; }
+    if (inputButtonL1) { gamepad->state.buttons |= GAMEPAD_MASK_L1; gamepad->debouncedGpio |= GAMEPAD_MASK_L1; }
+    if (inputButtonR1) { gamepad->state.buttons |= GAMEPAD_MASK_R1; gamepad->debouncedGpio |= GAMEPAD_MASK_R1; }
+    if (inputButtonL2) { gamepad->state.buttons |= GAMEPAD_MASK_L2; gamepad->debouncedGpio |= GAMEPAD_MASK_L2; }
+    if (inputButtonR2) { gamepad->state.buttons |= GAMEPAD_MASK_R2; gamepad->debouncedGpio |= GAMEPAD_MASK_R2; }
+    if (inputButtonS1) { gamepad->state.buttons |= GAMEPAD_MASK_S1; gamepad->debouncedGpio |= GAMEPAD_MASK_S1; }
+    if (inputButtonS2) { gamepad->state.buttons |= GAMEPAD_MASK_S2; gamepad->debouncedGpio |= GAMEPAD_MASK_S2; }
+    if (inputButtonL3) { gamepad->state.buttons |= GAMEPAD_MASK_L3; gamepad->debouncedGpio |= GAMEPAD_MASK_L3; }
+    if (inputButtonR3) { gamepad->state.buttons |= GAMEPAD_MASK_R3; gamepad->debouncedGpio |= GAMEPAD_MASK_R3; }
+    if (inputButtonA1) { gamepad->state.buttons |= GAMEPAD_MASK_A1; gamepad->debouncedGpio |= GAMEPAD_MASK_A1; }
+    if (inputButtonA2) { gamepad->state.buttons |= GAMEPAD_MASK_A2; gamepad->debouncedGpio |= GAMEPAD_MASK_A2; }
 
-    // --- 【追加ポイント2】ここを関数の最後に追記 ---
-    // 起動からの経過フレームをカウントアップします
-    // 100に達するまではカウントを増やし続け、100に達したら止まります
+    // --- 3. 追加ボタン (A3-E12) の同期 ---
+    if (inputButtonA3)   { gamepad->state.buttons |= GAMEPAD_MASK_A3;  gamepad->debouncedGpio |= GAMEPAD_MASK_A3; }
+    if (inputButtonA4)   { gamepad->state.buttons |= GAMEPAD_MASK_A4;  gamepad->debouncedGpio |= GAMEPAD_MASK_A4; }
+    if (inputButtonEXT1) { gamepad->state.buttons |= GAMEPAD_MASK_E1;  gamepad->debouncedGpio |= GAMEPAD_MASK_E1; }
+    if (inputButtonEXT2) { gamepad->state.buttons |= GAMEPAD_MASK_E2;  gamepad->debouncedGpio |= GAMEPAD_MASK_E2; }
+    if (inputButtonEXT3) { gamepad->state.buttons |= GAMEPAD_MASK_E3;  gamepad->debouncedGpio |= GAMEPAD_MASK_E3; }
+    if (inputButtonEXT4) { gamepad->state.buttons |= GAMEPAD_MASK_E4;  gamepad->debouncedGpio |= GAMEPAD_MASK_E4; }
+    if (inputButtonEXT5) { gamepad->state.buttons |= GAMEPAD_MASK_E5;  gamepad->debouncedGpio |= GAMEPAD_MASK_E5; }
+    if (inputButtonEXT6) { gamepad->state.buttons |= GAMEPAD_MASK_E6;  gamepad->debouncedGpio |= GAMEPAD_MASK_E6; }
+    if (inputButtonEXT7) { gamepad->state.buttons |= GAMEPAD_MASK_E7;  gamepad->debouncedGpio |= GAMEPAD_MASK_E7; }
+    if (inputButtonEXT8) { gamepad->state.buttons |= GAMEPAD_MASK_E8;  gamepad->debouncedGpio |= GAMEPAD_MASK_E8; }
+    if (inputButtonEXT9) { gamepad->state.buttons |= GAMEPAD_MASK_E9;  gamepad->debouncedGpio |= GAMEPAD_MASK_E9; }
+    if (inputButtonEXT10) { gamepad->state.buttons |= GAMEPAD_MASK_E10; gamepad->debouncedGpio |= GAMEPAD_MASK_E10; }
+    if (inputButtonEXT11) { gamepad->state.buttons |= GAMEPAD_MASK_E11; gamepad->debouncedGpio |= GAMEPAD_MASK_E11; }
+    if (inputButtonEXT12) { gamepad->state.buttons |= GAMEPAD_MASK_E12; gamepad->debouncedGpio |= GAMEPAD_MASK_E12; }
+
+    // --- 4. マクロ専用アクションの同期 ---
+    if (inputButtonMacro)  gamepad->debouncedGpio |= (1ULL << 31);
+    if (inputButtonMacro1) gamepad->debouncedGpio |= (1ULL << 32);
+    if (inputButtonMacro2) gamepad->debouncedGpio |= (1ULL << 33);
+    if (inputButtonMacro3) gamepad->debouncedGpio |= (1ULL << 34);
+    if (inputButtonMacro4) gamepad->debouncedGpio |= (1ULL << 35);
+    if (inputButtonMacro5) gamepad->debouncedGpio |= (1ULL << 36);
+    if (inputButtonMacro6) gamepad->debouncedGpio |= (1ULL << 37);
+
+    // --- 5. 起動時暴走防止カウントアップ (最後に行う) ---
     if (bootSkipCount < 500) {
         bootSkipCount++;
     }
-    // ----------------------------------------------	
-}
+
+} // process() 本体の終了
