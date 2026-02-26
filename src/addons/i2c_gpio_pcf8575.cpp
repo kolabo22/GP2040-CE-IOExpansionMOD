@@ -63,7 +63,13 @@ void PCF8575Addon::process()
         if (pin->second.direction == GpioDirection::GPIO_DIRECTION_INPUT) {
             uint8_t pinRaw = pcf->getPin(pin->first);
             bool pinValue = (bool)(!(pinRaw == 1));
-            switch (pin->second.action) {
+             // --- 【追加ポイント1】ここを追記 ---
+            // 起動直後の1フレーム目だけ、読み取った値を強制的に「押されていない(false)」にする
+            if (isFirstRead) {
+                pinValue = false;
+            }
+            // -------------------------------
+				     switch (pin->second.action) {
                 case GpioAction::BUTTON_PRESS_UP:    inputButtonUp = pinValue; break;
                 case GpioAction::BUTTON_PRESS_DOWN:  inputButtonDown = pinValue; break;
                 case GpioAction::BUTTON_PRESS_LEFT:  inputButtonLeft = pinValue; break;
@@ -237,5 +243,8 @@ void PCF8575Addon::process()
     if (inputButtonMacro4) gamepad->debouncedGpio |= (1ULL << 35); // マクロ4
     if (inputButtonMacro5) gamepad->debouncedGpio |= (1ULL << 36); // マクロ5
     if (inputButtonMacro6) gamepad->debouncedGpio |= (1ULL << 37); // マクロ6
-		
+ // --- 【追加ポイント2】関数の最後（閉じカッコの直前）に追記 ---
+    // 1フレーム目の処理が終わったので、フラグを倒して2フレーム目から通常動作にする
+    isFirstRead = false;
+	
 }
