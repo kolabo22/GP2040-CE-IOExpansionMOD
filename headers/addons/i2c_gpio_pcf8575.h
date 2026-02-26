@@ -149,7 +149,10 @@ public:
     std::map<uint8_t, GpioMappingInfo> pinRef;
 private:
     PCF8575* pcf;
+// --- 追加：起動時の誤作動防止フラグ ---
+    bool isFirstRead = true; 
 
+// ボタン変数群
     bool inputButtonUp = false;
     bool inputButtonDown = false;
     bool inputButtonLeft = false;
