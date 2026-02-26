@@ -63,12 +63,13 @@ void PCF8575Addon::process()
         if (pin->second.direction == GpioDirection::GPIO_DIRECTION_INPUT) {
             uint8_t pinRaw = pcf->getPin(pin->first);
             bool pinValue = (bool)(!(pinRaw == 1));
-             // --- 【追加ポイント1】ここを追記 ---
-            // 起動直後の1フレーム目だけ、読み取った値を強制的に「押されていない(false)」にする
-            if (isFirstRead) {
-                pinValue = false;
+             
+					   // --- 修正：起動から100フレーム（約1.6秒）は入力を強制OFFにする ---
+             // 50で足りない場合を想定して、より確実な100（約1.6秒）に設定します
+               if (bootSkipCount < 100) {
+               pinValue = false;
             }
-            // -------------------------------
+             // -------------------------------
 				     switch (pin->second.action) {
                 case GpioAction::BUTTON_PRESS_UP:    inputButtonUp = pinValue; break;
                 case GpioAction::BUTTON_PRESS_DOWN:  inputButtonDown = pinValue; break;
