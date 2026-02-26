@@ -44,20 +44,23 @@ void PCF8575Addon::setup() {
 void PCF8575Addon::process()
 {
     Gamepad * gamepad = Storage::getInstance().GetGamepad();
-	// 変数のリセット（これをしないとマクロが止まらなくなります）
+	 // --- 【修正：リセット位置の移動】 ---
+    // 関数の最上部ではなく、ここ（ループの直前）でリセットを行います。
+    // これにより、前フレームで確定した「ボタン押し」の状態が
+    // コアシステムのマクロ判定に届くようになります。
+
     inputButtonMacro = inputButtonMacro1 = inputButtonMacro2 = false;
     inputButtonMacro3 = inputButtonMacro4 = inputButtonMacro5 = inputButtonMacro6 = false;
-   // ... 他のボタンのリセット ...
-	
-	// --- ここを追加して毎フレームリセットする ---
+
     inputButtonUp = inputButtonDown = inputButtonLeft = inputButtonRight = false;
     inputButtonB1 = inputButtonB2 = inputButtonB3 = inputButtonB4 = false;
     inputButtonL1 = inputButtonR1 = inputButtonL2 = inputButtonR2 = false;
     inputButtonS1 = inputButtonS2 = inputButtonA1 = inputButtonA2 = false;
     inputButtonL3 = inputButtonR3 = inputButtonA3 = inputButtonA4 = false;
-    inputButtonEXT1 = inputButtonEXT2 = inputButtonEXT3 = false;
-    inputButtonEXT4 = inputButtonEXT5 = inputButtonEXT6 = false;
-	// -------------------------------------
+    inputButtonEXT1 = inputButtonEXT2 = inputButtonEXT3 = inputButtonEXT4 = false;
+    inputButtonEXT5 = inputButtonEXT6 = inputButtonEXT7 = inputButtonEXT8 = false;
+    inputButtonEXT9 = inputButtonEXT10 = inputButtonEXT11 = inputButtonEXT12 = false;
+    // -------------------------------------
 	
     for (std::map<uint8_t, GpioMappingInfo>::iterator pin = pinRef.begin(); pin != pinRef.end(); ++pin) {
         if (pin->second.direction == GpioDirection::GPIO_DIRECTION_INPUT) {
@@ -118,7 +121,13 @@ void PCF8575Addon::process()
                 // ------------------------------------------------------------
 							default:                             break;
 }
-       } else if (pin->second.direction == GpioDirection::GPIO_DIRECTION_OUTPUT) {
+       // 2. 反映処理（ここでセットした値が次フレームのマクロ判定に使われます）
+    if (inputButtonEXT1) {
+        gamepad->state.buttons |= GAMEPAD_MASK_E1;
+        gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
+    }
+				
+				} else if (pin->second.direction == GpioDirection::GPIO_DIRECTION_OUTPUT) {
             switch (pin->second.action) {
                 case GpioAction::BUTTON_PRESS_UP:    pcf->setPin(pin->first, !((gamepad->state.dpad & GAMEPAD_MASK_UP) == GAMEPAD_MASK_UP)); break;
                 case GpioAction::BUTTON_PRESS_DOWN:  pcf->setPin(pin->first, !((gamepad->state.dpad & GAMEPAD_MASK_DOWN) == GAMEPAD_MASK_DOWN)); break;
