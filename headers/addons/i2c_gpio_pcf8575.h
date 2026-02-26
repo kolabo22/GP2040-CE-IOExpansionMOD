@@ -151,7 +151,8 @@ private:
     PCF8575* pcf;
 // --- 追加：起動時の誤作動防止フラグ ---
     bool isFirstRead = true; 
-
+// bool isFirstRead = true; を以下に書き換え
+    int bootSkipCount = 0; 
 // ボタン変数群
     bool inputButtonUp = false;
     bool inputButtonDown = false;
