@@ -149,15 +149,6 @@ void PCF8575Addon::process()
                 case GpioAction::BUTTON_PRESS_E10:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 9)) == (1 << 9))); break;
                 case GpioAction::BUTTON_PRESS_E11:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 10)) == (1 << 10))); break;
                 case GpioAction::BUTTON_PRESS_E12:    pcf->setPin(pin->first, !((gamepad->state.aux & (1 << 11)) == (1 << 11))); break;
-							   // --- ここから【マクロのアクションID判定】を追加 ---
-    						case GpioAction::BUTTON_PRESS_MACRO:   inputButtonMacro = pinValue; break;
-    						case GpioAction::BUTTON_PRESS_MACRO_1: inputButtonMacro1 = pinValue; break;
-    						case GpioAction::BUTTON_PRESS_MACRO_2: inputButtonMacro2 = pinValue; break;
-    						case GpioAction::BUTTON_PRESS_MACRO_3: inputButtonMacro3 = pinValue; break;
-    						case GpioAction::BUTTON_PRESS_MACRO_4: inputButtonMacro4 = pinValue; break;
-    						case GpioAction::BUTTON_PRESS_MACRO_5: inputButtonMacro5 = pinValue; break;
-    						case GpioAction::BUTTON_PRESS_MACRO_6: inputButtonMacro6 = pinValue; break;
-    						 // -----------------------------------------------
 							default:                             break;
             }
 
