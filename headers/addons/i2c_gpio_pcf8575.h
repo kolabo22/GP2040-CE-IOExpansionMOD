@@ -184,6 +184,16 @@ private:
     bool inputButtonEXT10 = false;
     bool inputButtonEXT11 = false;
     bool inputButtonEXT12 = false;
+    // --- ここを追加 ---
+    bool inputButtonMacro = false;
+    bool inputButtonMacro1 = false;
+    bool inputButtonMacro2 = false;
+    bool inputButtonMacro3 = false;
+    bool inputButtonMacro4 = false;
+    bool inputButtonMacro5 = false;
+    bool inputButtonMacro6 = false;
+    // ------------------
+
 // --- ここまで追加 ---
 };
 
