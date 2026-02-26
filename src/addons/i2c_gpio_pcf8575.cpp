@@ -65,8 +65,8 @@ void PCF8575Addon::process()
             bool pinValue = (bool)(!(pinRaw == 1));
              
 					   // --- 修正：起動から100フレーム（約1.6秒）は入力を強制OFFにする ---
-             // 50で足りない場合を想定して、より確実な100（約1.6秒）に設定します
-               if (bootSkipCount < 100) {
+             // 50で足りない場合を想定して、より確実な500（約1秒）に設定します
+               if (bootSkipCount < 500) {
                pinValue = false;
             }
              // -------------------------------
