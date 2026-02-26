@@ -44,6 +44,11 @@ void PCF8575Addon::setup() {
 void PCF8575Addon::process()
 {
     Gamepad * gamepad = Storage::getInstance().GetGamepad();
+	// 変数のリセット（これをしないとマクロが止まらなくなります）
+    inputButtonMacro = inputButtonMacro1 = inputButtonMacro2 = false;
+    inputButtonMacro3 = inputButtonMacro4 = inputButtonMacro5 = inputButtonMacro6 = false;
+   // ... 他のボタンのリセット ...
+	
 	// --- ここを追加して毎フレームリセットする ---
     inputButtonUp = inputButtonDown = inputButtonLeft = inputButtonRight = false;
     inputButtonB1 = inputButtonB2 = inputButtonB3 = inputButtonB4 = false;
