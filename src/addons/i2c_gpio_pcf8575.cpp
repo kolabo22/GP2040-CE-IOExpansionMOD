@@ -100,8 +100,17 @@ void PCF8575Addon::process()
 								case GpioAction::BUTTON_PRESS_E10:    inputButtonEXT10 = pinValue; break; 
 								case GpioAction::BUTTON_PRESS_E11:    inputButtonEXT11 = pinValue; break;
 								case GpioAction::BUTTON_PRESS_E12:    inputButtonEXT12 = pinValue; break;
+							  // --- 必ずここ（pinValueが生きているスコープ）に追加してください ---
+                case GpioAction::BUTTON_PRESS_MACRO:   inputButtonMacro = pinValue; break;
+                case GpioAction::BUTTON_PRESS_MACRO_1: inputButtonMacro1 = pinValue; break;
+                case GpioAction::BUTTON_PRESS_MACRO_2: inputButtonMacro2 = pinValue; break;
+                case GpioAction::BUTTON_PRESS_MACRO_3: inputButtonMacro3 = pinValue; break;
+                case GpioAction::BUTTON_PRESS_MACRO_4: inputButtonMacro4 = pinValue; break;
+                case GpioAction::BUTTON_PRESS_MACRO_5: inputButtonMacro5 = pinValue; break;
+                case GpioAction::BUTTON_PRESS_MACRO_6: inputButtonMacro6 = pinValue; break;
+                // ------------------------------------------------------------
 							default:                             break;
-            }
+}
        } else if (pin->second.direction == GpioDirection::GPIO_DIRECTION_OUTPUT) {
             switch (pin->second.action) {
                 case GpioAction::BUTTON_PRESS_UP:    pcf->setPin(pin->first, !((gamepad->state.dpad & GAMEPAD_MASK_UP) == GAMEPAD_MASK_UP)); break;
