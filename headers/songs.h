@@ -8,8 +8,8 @@
 Song introSong{
     60, // 1音を少し長めに設定
     {
-        G5, G5, G5,          // 「セ」
-        PAUSE,               // 音の分離を良くする
+        DS5, DS5, DS5, DS5, DS5,         // 「セ」
+        PAUSE, PAUDE,              // 音の分離を良くする
         C5, C5, C5, C5, C5, C5, C5, C5, C5, C5 // 「ガー」
     }
 };
