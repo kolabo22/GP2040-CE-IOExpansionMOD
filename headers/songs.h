@@ -3,23 +3,23 @@
 
 #include "addons/buzzerspeaker.h"
 
-// セガサターンの起動音（簡易版：上昇音から低音へ）
-// 全体のスピードを速めるため 70ms に設定
-Song configModeSong{
-    150,
+// セガの「セーガー」：50ms × 3(150ms) と 50ms × 16(800ms)
+Song introSong{
+    50,
     {
-        C4, G4, C5, G5, C6, 
-        G6, C7, PAUSE, C3, C2
+        B4, B4, B4, 
+        PAUSE, 
+        G4, G4, G4, G4, G4, G4, G4, G4, G4, G4, G4, G4, G4, G4, G4, G4
     }
 };
 
-// メガドライブの「セガー」コール
-// 「セ」を短く、「ガー」を長めにするため、同じ音を連続させて長さを調整しています
-Song introSong{
-    150,
+// サターン風起動音（上昇から低音）
+Song configModeSong{
+    40,
     {
-        B4, B4, // セ（短め）
-        G4, G4, G4, G4, G4 // ガー（長め）
+        C4, E4, G4, B4, C5, E5, G5, B5, C6, C6, C6, C6, 
+        PAUSE, PAUSE,
+        A2, A2, A2, A2, A2, A2, A2, A2, A2, A2, A2, A2
     }
 };
 
