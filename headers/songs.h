@@ -8,9 +8,10 @@
 Song introSong{
     50, // テンポを少し速めにして、音の数を増やすことで密度を調整
     {
-        G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, // 「セ」を12個に増加（密度UP）
+        PAUSE,
+        G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, G5, // 「セ」を12個に増加（密度UP）
         PAUSE,                                         // 休符を最小限にして音のキレを出す
-        C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, PAUSE 
+        C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, PAUSE, PAUSE
     }
 };
 
@@ -23,14 +24,14 @@ Song configModeSong{
         F4, F4, F4, F4, F4, F4, F4, F4, PAUSE,
         
         // 前半：上昇アルペジオ（一気に駆け上がる）
-        F4, A4, C5, F5, A5, 
+        F4, F4, A4, A4, C5, C5, F5, F5, A5, A5, 
         C6, C6, C6, C6, C6, C6, C6, C6, C6, C6, // 小さく感じるC6の数を増やして強調
         
         // 独特の「溜め」：PAUSEを連続させることで、直前の高音との対比を作る
         PAUSE, PAUSE, PAUSE, PAUSE, PAUSE, 
 
         // 後半：広がる余韻（音量を稼ぐために少し長めに維持）
-        C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, PAUSE
+        C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, PAUSE, PAUSE
     }
 };
 
