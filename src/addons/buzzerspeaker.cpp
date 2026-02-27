@@ -76,7 +76,7 @@ void BuzzerSpeakerAddon::processBuzzer() {
 		return;
 	}
 
-	pwmSetFreqDuty(buzzerPinSlice, buzzerPinChannel, currentTone, 0.03 * ((float) buzzerVolume));
+	pwmSetFreqDuty(buzzerPinSlice, buzzerPinChannel, currentTone, 0.05 * ((float) buzzerVolume));
 	pwm_set_enabled (buzzerPinSlice, true);
 }
 
