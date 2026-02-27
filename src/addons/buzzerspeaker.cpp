@@ -80,8 +80,8 @@ void BuzzerSpeakerAddon::processBuzzer() {
     } else {
         // 同じ音が続く場合は再設定せず鳴らし続ける（ブツブツ音防止）
         if (currentTone != lastTone) {
-            // 音量係数を 0.08 にアップ
-            pwmSetFreqDuty(buzzerPinSlice, buzzerPinChannel, currentTone, 0.08 * ((float) buzzerVolume));
+            // 音量係数を 0.15 にアップ
+            pwmSetFreqDuty(buzzerPinSlice, buzzerPinChannel, currentTone, 0.15 * ((float) buzzerVolume));
             pwm_set_enabled(buzzerPinSlice, true);
         }
     }
