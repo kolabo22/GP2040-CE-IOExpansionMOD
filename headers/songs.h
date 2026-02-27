@@ -8,9 +8,9 @@
 Song introSong{
     60, // 1音を少し長めに設定
     {
-        DS5, DS5, DS5, DS5, DS5,         // 「セ」
-        PAUSE, PAUSE,              // 音の分離を良くする
-        C5, C5, C5, C5, C5, C5, C5, C5, C5, C5 // 「ガー」
+        G5, G5, G5, G5, G5, G5,       // 「セ」
+        PAUSE, PAUSE, PAUSE,          // 音の分離を良くする
+        C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, C5, PAUSE // 「ガー」
     }
 };
 
@@ -19,7 +19,7 @@ Song introSong{
 Song configModeSong{
     25,
     {
-        F4, F4, F4, F4, F4, PAUSE, // 最初の重厚な響き（溜め）
+        F4, F4, F4, F4, F4,F4, F4, F4, F4, F4, PAUSE, PAUSE, // 最初の重厚な響き（溜め）
         
         // 前半：上昇アルペジオ
         C4, C4, E4, E4, G4, G4, B4, B4, C5, C5, E5, E5, G5, G5, B5, B5, C6, C6, D6, D6, E6, E6,
