@@ -20,7 +20,7 @@ Song configModeSong{
     25,
     {
         // 前半：上昇アルペジオ
-        C4, E4, G4, B4, C5, E5, G5, B5, C6, D6, E6,
+        C4, C4, E4, E4, G4, G4, B4, B4, C5, C5, E5, E5, G5, G5, B5, B5, C6, C6, D6, D6, E6, E6,
         PAUSE, PAUSE, PAUSE, PAUSE, // 独特の「溜め」
 
         // 後半：広がる余韻（A2ではなくA3に変更してノイズを回避）
