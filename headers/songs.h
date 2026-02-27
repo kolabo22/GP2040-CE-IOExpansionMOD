@@ -6,10 +6,10 @@
 // セガサターンの起動音（簡易版：上昇音から低音へ）
 // 全体のスピードを速めるため 70ms に設定
 Song configModeSong{
-    70,
+    150,
     {
-        NOTE_C4, NOTE_G4, NOTE_C5, NOTE_G5, NOTE_C6, 
-        NOTE_G6, NOTE_C7, PAUSE, NOTE_C3, NOTE_C2
+        C4, G4, C5, G5, C6, 
+        G6, C7, PAUSE, C3, C2
     }
 };
 
@@ -18,8 +18,8 @@ Song configModeSong{
 Song introSong{
     150,
     {
-        NOTE_B4, NOTE_B4, // セ（短め）
-        NOTE_G4, NOTE_G4, NOTE_G4, NOTE_G4, NOTE_G4 // ガー（長め）
+        B4, B4, // セ（短め）
+        G4, G4, G4, G4, G4 // ガー（長め）
     }
 };
 
