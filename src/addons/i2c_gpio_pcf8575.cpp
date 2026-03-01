@@ -2,6 +2,7 @@
 #include "storagemanager.h"
 #include "helper.h"
 #include "config.pb.h"
+#include "addons/macro.h"  // ← ここに追加！
 
 bool PCF8575Addon::available() {
     const DisplayOptions& displayOptions = Storage::getInstance().getDisplayOptions();
@@ -236,20 +237,22 @@ void PCF8575Addon::process()
     if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
     // EXT12まで定義している場合は、同様にすべて追加してください
 	  
-	  // マクロボタン自体のフラグを反映させる
-    if (inputButtonMacro)  gamepad->debouncedGpio |= (1ULL << 31); // 共通マクロボタン
-    if (inputButtonMacro1) gamepad->debouncedGpio |= (1ULL << 32); // マクロ1
-    if (inputButtonMacro2) gamepad->debouncedGpio |= (1ULL << 33); // マクロ2
-    if (inputButtonMacro3) gamepad->debouncedGpio |= (1ULL << 34); // マクロ3
-    if (inputButtonMacro4) gamepad->debouncedGpio |= (1ULL << 35); // マクロ4
-    if (inputButtonMacro5) gamepad->debouncedGpio |= (1ULL << 36); // マクロ5
-    if (inputButtonMacro6) gamepad->debouncedGpio |= (1ULL << 37); // マクロ6
+	   // --- 追加：マクロエンジンへの直接通知 ---
+    // bits 0-6 を使用してマクロ状態を構築
+    uint16_t macroMask = 0;
+    if (inputButtonMacro)  macroMask |= (1 << 0);
+    if (inputButtonMacro1) macroMask |= (1 << 1);
+    if (inputButtonMacro2) macroMask |= (1 << 2);
+    if (inputButtonMacro3) macroMask |= (1 << 3);
+    if (inputButtonMacro4) macroMask |= (1 << 4);
+    if (inputButtonMacro5) macroMask |= (1 << 5);
+    if (inputButtonMacro6) macroMask |= (1 << 6);
 
-    // --- 【追加ポイント2】ここを関数の最後に追記 ---
-    // 起動からの経過フレームをカウントアップします
-    // 100に達するまではカウントを増やし続け、100に達したら止まります
+    // マクロエンジンに現在の入力状態を送る
+    // ※ファイルの先頭に #include "addons/macro.h" を追加してください
+    MacroInput::getInstance().setMacroInput(macroMask);
+
+    // --- 既存の bootSkipCount 処理 ---
     if (bootSkipCount < 100) {
         bootSkipCount++;
     }
-    // ----------------------------------------------	
-}
