@@ -2,7 +2,6 @@
 #include "storagemanager.h"
 #include "helper.h"
 #include "config.pb.h"
-#include "addons/macro.h" // これがダメだった場合、次を試してください
 
 bool PCF8575Addon::available() {
     const DisplayOptions& displayOptions = Storage::getInstance().getDisplayOptions();
@@ -238,15 +237,13 @@ void PCF8575Addon::process()
     // EXT12まで定義している場合は、同様にすべて追加してください
 	  
 	   // --- 追加：マクロエンジンへの直接通知 ---
-    // bits 0-6 を使用してマクロ状態を構築
-    uint16_t macroMask = 0;
-    if (inputButtonMacro)  macroMask |= (1 << 0);
-    if (inputButtonMacro1) macroMask |= (1 << 1);
-    if (inputButtonMacro2) macroMask |= (1 << 2);
-    if (inputButtonMacro3) macroMask |= (1 << 3);
-    if (inputButtonMacro4) macroMask |= (1 << 4);
-    if (inputButtonMacro5) macroMask |= (1 << 5);
-    if (inputButtonMacro6) macroMask |= (1 << 6);
+// マクロボタンの入力を、既存の EXTボタンのビットにマッピングする
+if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
+if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
+if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
+if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
+if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
+if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
     // マクロエンジンに現在の入力状態を送る
     // ※ファイルの先頭に #include "addons/macro.h" を追加してください
