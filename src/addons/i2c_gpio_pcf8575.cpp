@@ -46,7 +46,7 @@ void PCF8575Addon::preprocess() {
 
     // 1. 変数リセット（各入力のフラグを毎フレーム false に初期化）
 	  // 変数のリセット（これをしないとマクロが止まらなくなります）
-    inputButtonMacro = inputButtonMacro1 = inputButtonMacro2 = false;
+    inputButtonMacro1 = inputButtonMacro2 = false;
     inputButtonMacro3 = inputButtonMacro4 = inputButtonMacro5 = inputButtonMacro6 = false;
     // ... 他のボタンのリセット ...
     inputButtonUp = inputButtonDown = inputButtonLeft = inputButtonRight = false;
@@ -186,6 +186,14 @@ void PCF8575Addon::preprocess() {
     if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
     if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
+    // これにより、Webコンフィグの Preview 上でもボタンが光るようになります
+    if (inputButtonMacro1) gamepad->state.buttons |= GAMEPAD_MASK_E7;
+    if (inputButtonMacro2) gamepad->state.buttons |= GAMEPAD_MASK_E8;
+    if (inputButtonMacro3) gamepad->state.buttons |= GAMEPAD_MASK_E9;
+    if (inputButtonMacro4) gamepad->state.buttons |= GAMEPAD_MASK_E10;
+    if (inputButtonMacro5) gamepad->state.buttons |= GAMEPAD_MASK_E11;
+    if (inputButtonMacro6) gamepad->state.buttons |= GAMEPAD_MASK_E12;
+	
     // 2. PC送信用の状態 (gamepad->state) への反映
     // 十字キー
     if (inputButtonUp)    gamepad->state.dpad |= GAMEPAD_MASK_UP;
