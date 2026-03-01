@@ -245,11 +245,7 @@ if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
 if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
 if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
-    // マクロエンジンに現在の入力状態を送る
-    // ※ファイルの先頭に #include "addons/macro.h" を追加してください
-    MacroInput::getInstance().setMacroInput(macroMask);
-
-    // --- 既存の bootSkipCount 処理 ---
+// --- 既存の bootSkipCount 処理 ---
     if (bootSkipCount < 100) {
         bootSkipCount++;
     }
