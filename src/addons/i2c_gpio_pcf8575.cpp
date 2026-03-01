@@ -232,7 +232,11 @@ void PCF8575Addon::preprocess() {
     if (inputButtonEXT10) gamepad->state.buttons |= GAMEPAD_MASK_E10;
     if (inputButtonEXT11) gamepad->state.buttons |= GAMEPAD_MASK_E11;
     if (inputButtonEXT12) gamepad->state.buttons |= GAMEPAD_MASK_E12;
-
+    
+	  // i2c_gpio_pcf8575.cpp の preprocess() 内、最後（bootSkipCountの直前）に追加
+    gamepad->rawState.buttons = gamepad->state.buttons;
+    gamepad->rawState.dpad = gamepad->state.dpad;
+	
     // 3. 起動時スキップカウント
     if (bootSkipCount < 100) {
         bootSkipCount++;
