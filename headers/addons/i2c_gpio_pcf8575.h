@@ -140,8 +140,8 @@ class PCF8575Addon : public GPAddon {
 public:
     virtual bool available();
     virtual void setup();
-    virtual void preprocess() {}
-    virtual void process();
+    virtual void preprocess()
+    virtual void process() {} 
     virtual void postprocess(bool sent) {}
     virtual void reinit() {}
     virtual std::string name() { return PCF8575AddonName; }
