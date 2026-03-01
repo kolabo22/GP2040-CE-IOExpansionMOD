@@ -2,7 +2,7 @@
 #include "storagemanager.h"
 #include "helper.h"
 #include "config.pb.h"
-#include "addons/macro.h"  // ← ここに追加！
+#include "macro.h"  // ← ここに追加！
 
 bool PCF8575Addon::available() {
     const DisplayOptions& displayOptions = Storage::getInstance().getDisplayOptions();
