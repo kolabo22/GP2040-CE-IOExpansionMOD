@@ -2,12 +2,9 @@
 #define PCF8575ADDON_H
 
 #include "pcf8575.h"
-
 #include "gpaddon.h"
-
 #include "GamepadEnums.h"
 #include "peripheralmanager.h"
-
 #include <map>
 
 #ifndef I2C_PCF8575_ENABLED
@@ -19,186 +16,35 @@
 #endif
 
 #define PCF8575_PIN_COUNT 16
-
-// IO pin defaults
-#ifndef PCF8575_PIN00_DIRECTION
-#define PCF8575_PIN00_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN00_ACTION
-#define PCF8575_PIN00_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN01_DIRECTION
-#define PCF8575_PIN01_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN01_ACTION
-#define PCF8575_PIN01_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN02_DIRECTION
-#define PCF8575_PIN02_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN02_ACTION
-#define PCF8575_PIN02_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN03_DIRECTION
-#define PCF8575_PIN03_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN03_ACTION
-#define PCF8575_PIN03_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN04_DIRECTION
-#define PCF8575_PIN04_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN04_ACTION
-#define PCF8575_PIN04_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN05_DIRECTION
-#define PCF8575_PIN05_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN05_ACTION
-#define PCF8575_PIN05_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN06_DIRECTION
-#define PCF8575_PIN06_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN06_ACTION
-#define PCF8575_PIN06_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN07_DIRECTION
-#define PCF8575_PIN07_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN07_ACTION
-#define PCF8575_PIN07_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN08_DIRECTION
-#define PCF8575_PIN08_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN08_ACTION
-#define PCF8575_PIN08_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN09_DIRECTION
-#define PCF8575_PIN09_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN09_ACTION
-#define PCF8575_PIN09_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN10_DIRECTION
-#define PCF8575_PIN10_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN10_ACTION
-#define PCF8575_PIN10_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN11_DIRECTION
-#define PCF8575_PIN11_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN11_ACTION
-#define PCF8575_PIN11_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN12_DIRECTION
-#define PCF8575_PIN12_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN12_ACTION
-#define PCF8575_PIN12_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN13_DIRECTION
-#define PCF8575_PIN13_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN13_ACTION
-#define PCF8575_PIN13_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN14_DIRECTION
-#define PCF8575_PIN14_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN14_ACTION
-#define PCF8575_PIN14_ACTION GpioAction::NONE
-#endif
-
-#ifndef PCF8575_PIN15_DIRECTION
-#define PCF8575_PIN15_DIRECTION GpioDirection::GPIO_DIRECTION_INPUT
-#endif
-#ifndef PCF8575_PIN15_ACTION
-#define PCF8575_PIN15_ACTION GpioAction::NONE
-#endif
-
-// IO Module Name
 #define PCF8575AddonName "PCF8575"
 
 class PCF8575Addon : public GPAddon {
 public:
     virtual bool available();
     virtual void setup();
-    virtual void preprocess()
-    virtual void process() {} 
+    virtual void preprocess(); // 判定前に実行
+    virtual void process();    // 中身は空
     virtual void postprocess(bool sent) {}
     virtual void reinit() {}
     virtual std::string name() { return PCF8575AddonName; }
 
     std::map<uint8_t, GpioMappingInfo> pinRef;
+
 private:
     PCF8575* pcf;
-// --- 追加：起動時の誤作動防止フラグ ---
-    bool isFirstRead = true; 
-// bool isFirstRead = true; を以下に書き換え
     int bootSkipCount = 0; 
-// ボタン変数群
-    bool inputButtonUp = false;
-    bool inputButtonDown = false;
-    bool inputButtonLeft = false;
-    bool inputButtonRight = false;
-    bool inputButtonB1 = false;
-    bool inputButtonB2 = false;
-    bool inputButtonB3 = false;
-    bool inputButtonB4 = false;
-    bool inputButtonL1 = false;
-    bool inputButtonR1 = false;
-    bool inputButtonL2 = false;
-    bool inputButtonR2 = false;
-    bool inputButtonS1 = false;
-    bool inputButtonS2 = false;
-    bool inputButtonL3 = false;
-    bool inputButtonR3 = false;
-    bool inputButtonA1 = false;
-    bool inputButtonA2 = false;
-    bool inputButtonFN = false;
-// --- ここから追加 ---
-    bool inputButtonA3 = false;
-    bool inputButtonA4 = false;
-    bool inputButtonEXT1 = false;
-    bool inputButtonEXT2 = false;
-    bool inputButtonEXT3 = false;
-    bool inputButtonEXT4 = false;
-    bool inputButtonEXT5 = false;
-    bool inputButtonEXT6 = false;
-    bool inputButtonEXT7 = false;
-    bool inputButtonEXT8 = false;
-    bool inputButtonEXT9 = false;
-    bool inputButtonEXT10 = false;
-    bool inputButtonEXT11 = false;
-    bool inputButtonEXT12 = false;
-    // --- ここを追加 ---
-    bool inputButtonMacro = false;
-    bool inputButtonMacro1 = false;
-    bool inputButtonMacro2 = false;
-    bool inputButtonMacro3 = false;
-    bool inputButtonMacro4 = false;
-    bool inputButtonMacro5 = false;
-    bool inputButtonMacro6 = false;
-    // ------------------
 
-// --- ここまで追加 ---
+    // ボタン状態保持用フラグ
+    bool inputButtonUp, inputButtonDown, inputButtonLeft, inputButtonRight;
+    bool inputButtonB1, inputButtonB2, inputButtonB3, inputButtonB4;
+    bool inputButtonL1, inputButtonR1, inputButtonL2, inputButtonR2;
+    bool inputButtonS1, inputButtonS2, inputButtonL3, inputButtonR3;
+    bool inputButtonA1, inputButtonA2, inputButtonA3, inputButtonA4, inputButtonFN;
+    bool inputButtonEXT1, inputButtonEXT2, inputButtonEXT3, inputButtonEXT4;
+    bool inputButtonEXT5, inputButtonEXT6, inputButtonEXT7, inputButtonEXT8;
+    bool inputButtonEXT9, inputButtonEXT10, inputButtonEXT11, inputButtonEXT12;
+    bool inputButtonMacro, inputButtonMacro1, inputButtonMacro2, inputButtonMacro3;
+    bool inputButtonMacro4, inputButtonMacro5, inputButtonMacro6;
 };
 
-#endif  // _I2CAnalog_H_
+#endif
