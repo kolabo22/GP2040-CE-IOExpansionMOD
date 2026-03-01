@@ -179,20 +179,20 @@ void PCF8575Addon::preprocess() {
     if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
     // マクロ専用ボタン入力を E7~E12 のビットに重ねて反映
-    if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
-    if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
-    if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
-    if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
-    if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
-    if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
+    if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
+    if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E2;
+    if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E3;
+    if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E4;
+    if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E5;
+    if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E6;
 
     // これにより、Webコンフィグの Preview 上でもボタンが光るようになります
-    if (inputButtonMacro1) gamepad->state.buttons |= GAMEPAD_MASK_E7;
-    if (inputButtonMacro2) gamepad->state.buttons |= GAMEPAD_MASK_E8;
-    if (inputButtonMacro3) gamepad->state.buttons |= GAMEPAD_MASK_E9;
-    if (inputButtonMacro4) gamepad->state.buttons |= GAMEPAD_MASK_E10;
-    if (inputButtonMacro5) gamepad->state.buttons |= GAMEPAD_MASK_E11;
-    if (inputButtonMacro6) gamepad->state.buttons |= GAMEPAD_MASK_E12;
+    if (inputButtonMacro1) gamepad->state.buttons |= GAMEPAD_MASK_E1;
+    if (inputButtonMacro2) gamepad->state.buttons |= GAMEPAD_MASK_E2;
+    if (inputButtonMacro3) gamepad->state.buttons |= GAMEPAD_MASK_E3;
+    if (inputButtonMacro4) gamepad->state.buttons |= GAMEPAD_MASK_E4;
+    if (inputButtonMacro5) gamepad->state.buttons |= GAMEPAD_MASK_E5;
+    if (inputButtonMacro6) gamepad->state.buttons |= GAMEPAD_MASK_E6;
 	
     // 2. PC送信用の状態 (gamepad->state) への反映
     // 十字キー
