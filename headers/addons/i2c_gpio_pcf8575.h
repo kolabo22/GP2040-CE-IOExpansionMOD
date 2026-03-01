@@ -133,6 +133,7 @@
 
 class PCF8575Addon : public GPAddon {
 public:
+    virtual uint16_t priority() { return 0; }
     virtual bool available();
     virtual void setup();
     virtual void preprocess(); // 判定前に実行
