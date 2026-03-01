@@ -3,8 +3,8 @@
 #include "helper.h"
 #include "config.pb.h"
 
+// available, setup, preprocess, process関数を含む完全な実装
 bool PCF8575Addon::available() {
-    const DisplayOptions& displayOptions = Storage::getInstance().getDisplayOptions();
     const PCF8575Options& options = Storage::getInstance().getAddonOptions().pcf8575Options;
     if (options.enabled) {
         pcf = new PCF8575();
@@ -24,7 +24,6 @@ void PCF8575Addon::setup() {
     const PCF8575Options& options = Storage::getInstance().getAddonOptions().pcf8575Options;
     const GpioMappingInfo* gpioMappings = options.pins;
 
-    // check if pins have actions defined
     uint16_t pinMask = 0xFFFF;
     for (uint8_t i = 0; i < options.pins_count; i++) {
         GpioMappingInfo pin = gpioMappings[i];
@@ -33,23 +32,23 @@ void PCF8575Addon::setup() {
         }
     }
 
-    // at least one pin is defined with an action
     if (pinRef.size() > 0) {
         pcf->begin();
-        // set default mask
         pcf->send(pinMask);
     }
 }
 
-void PCF8575Addon::process()
-{
+/**
+ * 【重要】マクロエンジンが判定を行う前に実行される preprocess() で全てを処理します
+ */
+void PCF8575Addon::preprocess() {
     Gamepad * gamepad = Storage::getInstance().GetGamepad();
-	// 変数のリセット（これをしないとマクロが止まらなくなります）
+
+    // 1. 変数リセット（各入力のフラグを毎フレーム false に初期化）
+	  // 変数のリセット（これをしないとマクロが止まらなくなります）
     inputButtonMacro = inputButtonMacro1 = inputButtonMacro2 = false;
     inputButtonMacro3 = inputButtonMacro4 = inputButtonMacro5 = inputButtonMacro6 = false;
-   // ... 他のボタンのリセット ...
-	
-	// --- ここを追加して毎フレームリセットする ---
+    // ... 他のボタンのリセット ...
     inputButtonUp = inputButtonDown = inputButtonLeft = inputButtonRight = false;
     inputButtonB1 = inputButtonB2 = inputButtonB3 = inputButtonB4 = false;
     inputButtonL1 = inputButtonR1 = inputButtonL2 = inputButtonR2 = false;
@@ -57,8 +56,8 @@ void PCF8575Addon::process()
     inputButtonL3 = inputButtonR3 = inputButtonA3 = inputButtonA4 = false;
     inputButtonEXT1 = inputButtonEXT2 = inputButtonEXT3 = false;
     inputButtonEXT4 = inputButtonEXT5 = inputButtonEXT6 = false;
-	// -------------------------------------
-	
+	  // -------------------------------------
+
     for (std::map<uint8_t, GpioMappingInfo>::iterator pin = pinRef.begin(); pin != pinRef.end(); ++pin) {
         if (pin->second.direction == GpioDirection::GPIO_DIRECTION_INPUT) {
             uint8_t pinRaw = pcf->getPin(pin->first);
@@ -163,72 +162,7 @@ void PCF8575Addon::process()
             // NYI
         }
     }
-  	   // --- 追加：マクロエンジンへの直接通知 ---
-    // マクロボタンの入力を、既存の EXTボタンのビットにマッピングする
-    if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
-    if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
-    if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
-    if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
-    if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
-    if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
-
-	  if (inputButtonUp) gamepad->state.dpad |= GAMEPAD_MASK_UP;
-    if (inputButtonDown) gamepad->state.dpad |= GAMEPAD_MASK_DOWN;
-    if (inputButtonLeft) gamepad->state.dpad |= GAMEPAD_MASK_LEFT;
-    if (inputButtonRight) gamepad->state.dpad |= GAMEPAD_MASK_RIGHT;
-    if (inputButtonB1) gamepad->state.buttons |= GAMEPAD_MASK_B1;
-    if (inputButtonB2) gamepad->state.buttons |= GAMEPAD_MASK_B2;
-    if (inputButtonB3) gamepad->state.buttons |= GAMEPAD_MASK_B3;
-    if (inputButtonB4) gamepad->state.buttons |= GAMEPAD_MASK_B4;
-    if (inputButtonL1) gamepad->state.buttons |= GAMEPAD_MASK_L1;
-    if (inputButtonR1) gamepad->state.buttons |= GAMEPAD_MASK_R1;
-    if (inputButtonL2) gamepad->state.buttons |= GAMEPAD_MASK_L2;
-    if (inputButtonR2) gamepad->state.buttons |= GAMEPAD_MASK_R2;
-    if (inputButtonS1) gamepad->state.buttons |= GAMEPAD_MASK_S1;
-    if (inputButtonS2) gamepad->state.buttons |= GAMEPAD_MASK_S2;
-    if (inputButtonL3) gamepad->state.buttons |= GAMEPAD_MASK_L3;
-    if (inputButtonR3) gamepad->state.buttons |= GAMEPAD_MASK_R3;
-    if (inputButtonA1) gamepad->state.buttons |= GAMEPAD_MASK_A1;
-    if (inputButtonA2) gamepad->state.buttons |= GAMEPAD_MASK_A2;
-    
-	  // ゲームパッドの状態に反映 (既存分は省略)
-    // --- 追加分を反映 ---
-    if (inputButtonA3) gamepad->state.buttons |= GAMEPAD_MASK_A3;
-    if (inputButtonA4) gamepad->state.buttons |= GAMEPAD_MASK_A4;
-    
-    // EXTボタンをAUXビットとして反映（例）
-    // 修正：aux ではなく、PCへ送信される state.buttons (E1〜E6) に直接反映する
-    if (inputButtonEXT1) gamepad->state.buttons |= GAMEPAD_MASK_E1;
-    if (inputButtonEXT2) gamepad->state.buttons |= GAMEPAD_MASK_E2;
-    if (inputButtonEXT3) gamepad->state.buttons |= GAMEPAD_MASK_E3;
-    if (inputButtonEXT4) gamepad->state.buttons |= GAMEPAD_MASK_E4;
-    if (inputButtonEXT5) gamepad->state.buttons |= GAMEPAD_MASK_E5;
-    if (inputButtonEXT6) gamepad->state.buttons |= GAMEPAD_MASK_E6;
-		if (inputButtonEXT7) gamepad->state.buttons |= GAMEPAD_MASK_E7;
-    if (inputButtonEXT8) gamepad->state.buttons |= GAMEPAD_MASK_E8;
-    if (inputButtonEXT9) gamepad->state.buttons |= GAMEPAD_MASK_E9;
-    if (inputButtonEXT10) gamepad->state.buttons |= GAMEPAD_MASK_E10;
-    if (inputButtonEXT11) gamepad->state.buttons |= GAMEPAD_MASK_E11;
-    if (inputButtonEXT12) gamepad->state.buttons |= GAMEPAD_MASK_E12;
-// --- 追加：マクロエンジンへの入力同期 ---
-    // これにより、Webコンフィグのマクロ設定で Trigger に指定したボタンが反応するようになります。
-    if (inputButtonA3)   gamepad->debouncedGpio |= GAMEPAD_MASK_A3;
-    if (inputButtonA4)   gamepad->debouncedGpio |= GAMEPAD_MASK_A4;
-    if (inputButtonEXT1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
-    if (inputButtonEXT2) gamepad->debouncedGpio |= GAMEPAD_MASK_E2;
-    if (inputButtonEXT3) gamepad->debouncedGpio |= GAMEPAD_MASK_E3;
-    if (inputButtonEXT4) gamepad->debouncedGpio |= GAMEPAD_MASK_E4;
-    if (inputButtonEXT5) gamepad->debouncedGpio |= GAMEPAD_MASK_E5;
-    if (inputButtonEXT6) gamepad->debouncedGpio |= GAMEPAD_MASK_E6;
-    if (inputButtonEXT7) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
-    if (inputButtonEXT8) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
-    if (inputButtonEXT9) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
-    if (inputButtonEXT10) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
-    if (inputButtonEXT11) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
-    if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;	
-    // --- 既存のコード（gamepad->state.buttons への反映）の下に追加 ---
-
-    // マクロエンジンやホットキー判定が使用する「生の入力状態」に同期させる
+  // A3, A4, EXT1~12 の基本反映
     if (inputButtonA3)   gamepad->debouncedGpio |= GAMEPAD_MASK_A3;
     if (inputButtonA4)   gamepad->debouncedGpio |= GAMEPAD_MASK_A4;
     if (inputButtonEXT1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
@@ -243,11 +177,59 @@ void PCF8575Addon::process()
     if (inputButtonEXT10) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
     if (inputButtonEXT11) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
     if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
-    // EXT12まで定義している場合は、同様にすべて追加してください
-	  
 
-// --- 既存の bootSkipCount 処理 ---
+    // マクロ専用ボタン入力を E7~E12 のビットに重ねて反映
+    if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
+    if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
+    if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
+    if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
+    if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
+    if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
+
+    // 2. PC送信用の状態 (gamepad->state) への反映
+    // 十字キー
+    if (inputButtonUp)    gamepad->state.dpad |= GAMEPAD_MASK_UP;
+    if (inputButtonDown)  gamepad->state.dpad |= GAMEPAD_MASK_DOWN;
+    if (inputButtonLeft)  gamepad->state.dpad |= GAMEPAD_MASK_LEFT;
+    if (inputButtonRight) gamepad->state.dpad |= GAMEPAD_MASK_RIGHT;
+
+    // メインボタン B1~A2
+    if (inputButtonB1) gamepad->state.buttons |= GAMEPAD_MASK_B1;
+    if (inputButtonB2) gamepad->state.buttons |= GAMEPAD_MASK_B2;
+    if (inputButtonB3) gamepad->state.buttons |= GAMEPAD_MASK_B3;
+    if (inputButtonB4) gamepad->state.buttons |= GAMEPAD_MASK_B4;
+    if (inputButtonL1) gamepad->state.buttons |= GAMEPAD_MASK_L1;
+    if (inputButtonR1) gamepad->state.buttons |= GAMEPAD_MASK_R1;
+    if (inputButtonL2) gamepad->state.buttons |= GAMEPAD_MASK_L2;
+    if (inputButtonR2) gamepad->state.buttons |= GAMEPAD_MASK_R2;
+    if (inputButtonS1) gamepad->state.buttons |= GAMEPAD_MASK_S1;
+    if (inputButtonS2) gamepad->state.buttons |= GAMEPAD_MASK_S2;
+    if (inputButtonL3) gamepad->state.buttons |= GAMEPAD_MASK_L3;
+    if (inputButtonR3) gamepad->state.buttons |= GAMEPAD_MASK_R3;
+    if (inputButtonA1) gamepad->state.buttons |= GAMEPAD_MASK_A1;
+    if (inputButtonA2) gamepad->state.buttons |= GAMEPAD_MASK_A2;
+
+    // 拡張ボタン A3, A4, E1~E12
+    if (inputButtonA3)   gamepad->state.buttons |= GAMEPAD_MASK_A3;
+    if (inputButtonA4)   gamepad->state.buttons |= GAMEPAD_MASK_A4;
+    if (inputButtonEXT1) gamepad->state.buttons |= GAMEPAD_MASK_E1;
+    if (inputButtonEXT2) gamepad->state.buttons |= GAMEPAD_MASK_E2;
+    if (inputButtonEXT3) gamepad->state.buttons |= GAMEPAD_MASK_E3;
+    if (inputButtonEXT4) gamepad->state.buttons |= GAMEPAD_MASK_E4;
+    if (inputButtonEXT5) gamepad->state.buttons |= GAMEPAD_MASK_E5;
+    if (inputButtonEXT6) gamepad->state.buttons |= GAMEPAD_MASK_E6;
+    if (inputButtonEXT7) gamepad->state.buttons |= GAMEPAD_MASK_E7;
+    if (inputButtonEXT8) gamepad->state.buttons |= GAMEPAD_MASK_E8;
+    if (inputButtonEXT9) gamepad->state.buttons |= GAMEPAD_MASK_E9;
+    if (inputButtonEXT10) gamepad->state.buttons |= GAMEPAD_MASK_E10;
+    if (inputButtonEXT11) gamepad->state.buttons |= GAMEPAD_MASK_E11;
+    if (inputButtonEXT12) gamepad->state.buttons |= GAMEPAD_MASK_E12;
+
+    // 3. 起動時スキップカウント
     if (bootSkipCount < 100) {
         bootSkipCount++;
     }
-}
+} // preprocess の終了
+
+// process 関数は空の状態で定義
+void PCF8575Addon::process() {}
