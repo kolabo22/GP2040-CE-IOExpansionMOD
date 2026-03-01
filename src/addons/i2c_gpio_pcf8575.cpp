@@ -163,8 +163,16 @@ void PCF8575Addon::process()
             // NYI
         }
     }
+  	   // --- 追加：マクロエンジンへの直接通知 ---
+    // マクロボタンの入力を、既存の EXTボタンのビットにマッピングする
+    if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
+    if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
+    if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
+    if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
+    if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
+    if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
-    if (inputButtonUp) gamepad->state.dpad |= GAMEPAD_MASK_UP;
+	  if (inputButtonUp) gamepad->state.dpad |= GAMEPAD_MASK_UP;
     if (inputButtonDown) gamepad->state.dpad |= GAMEPAD_MASK_DOWN;
     if (inputButtonLeft) gamepad->state.dpad |= GAMEPAD_MASK_LEFT;
     if (inputButtonRight) gamepad->state.dpad |= GAMEPAD_MASK_RIGHT;
@@ -182,7 +190,8 @@ void PCF8575Addon::process()
     if (inputButtonR3) gamepad->state.buttons |= GAMEPAD_MASK_R3;
     if (inputButtonA1) gamepad->state.buttons |= GAMEPAD_MASK_A1;
     if (inputButtonA2) gamepad->state.buttons |= GAMEPAD_MASK_A2;
-    // ゲームパッドの状態に反映 (既存分は省略)
+    
+	  // ゲームパッドの状態に反映 (既存分は省略)
     // --- 追加分を反映 ---
     if (inputButtonA3) gamepad->state.buttons |= GAMEPAD_MASK_A3;
     if (inputButtonA4) gamepad->state.buttons |= GAMEPAD_MASK_A4;
@@ -236,14 +245,6 @@ void PCF8575Addon::process()
     if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
     // EXT12まで定義している場合は、同様にすべて追加してください
 	  
-	   // --- 追加：マクロエンジンへの直接通知 ---
-// マクロボタンの入力を、既存の EXTボタンのビットにマッピングする
-if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
-if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
-if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
-if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
-if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
-if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
 // --- 既存の bootSkipCount 処理 ---
     if (bootSkipCount < 100) {
