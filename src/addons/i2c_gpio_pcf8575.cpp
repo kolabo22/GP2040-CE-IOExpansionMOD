@@ -249,3 +249,4 @@ if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
     if (bootSkipCount < 100) {
         bootSkipCount++;
     }
+}
