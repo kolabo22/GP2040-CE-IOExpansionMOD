@@ -179,20 +179,20 @@ void PCF8575Addon::preprocess() {
     if (inputButtonEXT12) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
     // マクロ専用ボタン入力を E7~E12 のビットに重ねて反映
-    if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E1;
-    if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E2;
-    if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E3;
-    if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E4;
-    if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E5;
-    if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E6;
+    if (inputButtonMacro1) gamepad->debouncedGpio |= GAMEPAD_MASK_E7;
+    if (inputButtonMacro2) gamepad->debouncedGpio |= GAMEPAD_MASK_E8;
+    if (inputButtonMacro3) gamepad->debouncedGpio |= GAMEPAD_MASK_E9;
+    if (inputButtonMacro4) gamepad->debouncedGpio |= GAMEPAD_MASK_E10;
+    if (inputButtonMacro5) gamepad->debouncedGpio |= GAMEPAD_MASK_E11;
+    if (inputButtonMacro6) gamepad->debouncedGpio |= GAMEPAD_MASK_E12;
 
     // これにより、Webコンフィグの Preview 上でもボタンが光るようになります
-    if (inputButtonMacro1) gamepad->state.buttons |= GAMEPAD_MASK_E1;
-    if (inputButtonMacro2) gamepad->state.buttons |= GAMEPAD_MASK_E2;
-    if (inputButtonMacro3) gamepad->state.buttons |= GAMEPAD_MASK_E3;
-    if (inputButtonMacro4) gamepad->state.buttons |= GAMEPAD_MASK_E4;
-    if (inputButtonMacro5) gamepad->state.buttons |= GAMEPAD_MASK_E5;
-    if (inputButtonMacro6) gamepad->state.buttons |= GAMEPAD_MASK_E6;
+    if (inputButtonMacro1) gamepad->state.buttons |= GAMEPAD_MASK_E7;
+    if (inputButtonMacro2) gamepad->state.buttons |= GAMEPAD_MASK_E8;
+    if (inputButtonMacro3) gamepad->state.buttons |= GAMEPAD_MASK_E9;
+    if (inputButtonMacro4) gamepad->state.buttons |= GAMEPAD_MASK_E10;
+    if (inputButtonMacro5) gamepad->state.buttons |= GAMEPAD_MASK_E11;
+    if (inputButtonMacro6) gamepad->state.buttons |= GAMEPAD_MASK_E12;
 	
     // 2. PC送信用の状態 (gamepad->state) への反映
     // 十字キー
@@ -233,9 +233,16 @@ void PCF8575Addon::preprocess() {
     if (inputButtonEXT11) gamepad->state.buttons |= GAMEPAD_MASK_E11;
     if (inputButtonEXT12) gamepad->state.buttons |= GAMEPAD_MASK_E12;
     
-	  // i2c_gpio_pcf8575.cpp の preprocess() 内、最後（bootSkipCountの直前）に追加
-    gamepad->state.buttons = gamepad->state.buttons; 
-    gamepad->state.dpad = gamepad->state.dpad;
+	// --- 修正案：マクロエンジンが確実に拾える場所にビットを立てる ---
+    // あなたの Gamepad.h の定義に基づき、debouncedGpio (32bit) 内に収めます
+    
+    // 一旦クリアしてからセットすることで、Core 1 から Core 0 へ変化を伝えます
+    gamepad->debouncedGpio |= (inputButtonMacro1 ? GAMEPAD_MASK_E7 : 0);
+    gamepad->debouncedGpio |= (inputButtonMacro2 ? GAMEPAD_MASK_E8 : 0);
+	  gamepad->debouncedGpio |= (inputButtonMacro3 ? GAMEPAD_MASK_E9 : 0);
+    gamepad->debouncedGpio |= (inputButtonMacro4 ? GAMEPAD_MASK_E10 : 0);
+	  gamepad->debouncedGpio |= (inputButtonMacro5 ? GAMEPAD_MASK_E11 : 0);
+    gamepad->debouncedGpio |= (inputButtonMacro6 ? GAMEPAD_MASK_E12 : 0);
 	
     // 3. 起動時スキップカウント
     if (bootSkipCount < 100) {
